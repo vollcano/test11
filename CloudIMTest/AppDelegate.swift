@@ -16,6 +16,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //查询保存的token
+        let tokenCache = NSUserDefaults.standardUserDefaults().objectForKey("kDeviceToken") as? String
+        
+        //initialize appkey
+        RCIM.sharedRCIM().initWithAppKey("c9kqb3rdk5tdj")
+        
+        //test connection with token
+    RCIM.sharedRCIM().connectWithToken("QLOrPbOnzWtVct4PcRJxgKpYmduguCZ0VVn0GRkGuXF0v6VjAW5Osm2SsT9hcwsvibs9Jj0MMiBhpQHYYq9A3A==", success: { (_) -> Void in
+            print("connection success!")
+            let currentUser = RCUserInfo(userId: "carrie", name: "小南", portrait: "http://www.xiaoboswift.com/1.jpg")
+            RCIMClient.sharedRCIMClient().currentUserInfo = currentUser
+                   print("111" + RCIMClient.sharedRCIMClient().currentUserInfo.userId)
+            }, error: { (_) -> Void in
+                print("connection failed")
+            }) { () -> Void in
+                print("token invalid")
+        }
         return true
     }
 
